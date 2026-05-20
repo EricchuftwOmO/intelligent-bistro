@@ -56,7 +56,9 @@ Press `w` for web, `i` for iOS simulator, or `a` for Android emulator.
 ## Features
 
 - **Visual Menu Browsing** — Category filters, polished dark UI with NativeWind/Tailwind
-- **AI Chat Interface** — Natural language ordering ("Add two spicy chicken sandwiches and a lemonade")
+- **AI Chat Interface** — Natural language ordering with dual mode:
+  - 🤖 **AI Mode** — Powered by Google Gemini, understands conversational language
+  - ⚡ **Basic Mode** — Rule-based parser, no API key needed, unlimited usage
 - **Smart Cart** — Add/remove/modify items via UI buttons or AI conversation, with real-time badge updates
 - **Add-to-Cart Feedback** — Visual confirmation (green ✓ animation) when items are added
 - **NLP Backend** — Parses natural language into structured JSON cart actions

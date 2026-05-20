@@ -50,27 +50,31 @@
 
 > **On screen:** Switch to the Chat tab
 
-"Now here's the highlight — the AI Chat interface. Instead of tapping buttons, I can order using natural language."
+"Now here's the highlight — the AI Chat interface. Notice we have two modes: AI mode powered by Google Gemini, and Basic mode using a rule-based parser."
+
+> **On screen:** Show the mode toggle (🤖 AI / ⚡ Basic), point out the purple theme
+
+"The UI clearly indicates which mode you're in — purple for AI, green for Basic. Each mode keeps its own conversation history."
+
+> **On screen:** In AI mode, type: `Hey, can I get a salmon bowl and some sparkling water?`
+
+"In AI mode, I can use natural conversational language: 'Hey, can I get a salmon bowl and some sparkling water?'... Gemini understands the intent perfectly."
+
+> **On screen:** Type: `Remove the water`
+
+"I can remove items naturally: 'Remove the water'... Done."
+
+> **On screen:** Switch to Basic mode, show green theme
+
+"Switching to Basic mode — notice the color changes to green and the conversation history is separate."
 
 > **On screen:** Type: `Add two spicy chicken sandwiches and a lemonade`
 
-"Let me type: 'Add two spicy chicken sandwiches and a lemonade'... The AI confirms it's been added with the prices. The cart badge is already updated."
-
-> **On screen:** Type: `Remove the lemonade`
-
-"I can also remove items: 'Remove the lemonade'... Done."
-
-> **On screen:** Type: `What do you have?`
-
-"I can ask about the menu: 'What do you have?' — and it gives me a helpful overview."
+"Basic mode uses keyword matching, so I use menu item names directly: 'Add two spicy chicken sandwiches and a lemonade'... Works great."
 
 > **On screen:** Type: `Clear my cart`
 
-"And I can clear everything: 'Clear my cart'... The cart is now empty."
-
-> **On screen:** Type: `I'd like a truffle burger and fries`
-
-"Let me add some more: 'I'd like a truffle burger and fries'... Both items added. The NLP parser handles various phrasings naturally."
+"And I can clear the cart: 'Clear my cart'... Done. Both modes fully manage the cart."
 
 ---
 
@@ -82,7 +86,7 @@
 
 > **On screen:** Open `backend/index.js`, scroll to `parseOrder()` function
 
-"The backend is a Node.js Express server. It serves menu data via a REST API and has a parse-order endpoint. The key function is `parseOrder` — a rule-based NLP parser that detects intent (add, remove, clear), matches item names, extracts quantities, and returns structured actions."
+"The backend is a Node.js Express server. It serves menu data via a REST API and has a parse-order endpoint that accepts a `mode` parameter. When set to 'ai', it uses Google Gemini for natural language understanding. Otherwise, it falls back to a rule-based keyword parser."
 
 > **On screen:** Open frontend folder: `App.js`, `src/screens/`, `src/store/`
 
