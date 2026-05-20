@@ -1,9 +1,14 @@
 const express = require('express');
 const cors = require('cors');
-const app = express();
+const { GoogleGenerativeAI } = require('@google/generative-ai');
 
+const app = express();
 app.use(cors());
 app.use(express.json());
+
+const genAI = process.env.GEMINI_API_KEY
+  ? new GoogleGenerativeAI(process.env.GEMINI_API_KEY)
+  : null;
 
 const menu = [
   { id: 1, name: 'Spicy Chicken Sandwich', category: 'Mains', price: 12.99, description: 'Crispy chicken with sriracha mayo, pickled jalapeños & slaw', image: '🍔' },
@@ -26,15 +31,60 @@ app.get('/api/menu', (req, res) => {
 });
 
 // NLP order processing
-app.post('/api/parse-order', (req, res) => {
+app.post('/api/parse-order', async (req, res) => {
   const { message } = req.body;
   if (!message) return res.status(400).json({ error: 'Message required' });
 
-  const result = parseOrder(message.toLowerCase());
-  res.json(result);
+  try {
+    const result = genAI
+      ? await parseOrderWithAI(message)
+      : parseOrderFallback(message.toLowerCase());
+    res.json(result);
+  } catch (err) {
+    console.error('AI parse error:', err.message);
+    res.json(parseOrderFallback(message.toLowerCase()));
+  }
 });
 
-function parseOrder(text) {
+async function parseOrderWithAI(text) {
+  const model = genAI.getGenerativeModel({ model: 'gemini-2.0-flash' });
+
+  const menuSummary = menu.map(i => `id:${i.id} "${i.name}" $${i.price} (${i.category})`).join('\n');
+
+  const prompt = `You are a restaurant order assistant for "The Intelligent Bistro".
+
+Menu:
+${menuSummary}
+
+User said: "${text}"
+
+Respond with ONLY valid JSON (no markdown, no code fences):
+{
+  "intent": "add" | "remove" | "clear" | "update" | "query" | "greeting" | "unknown",
+  "actions": [{"type": "add"|"remove"|"update"|"clear", "itemId": <number>, "quantity": <number>}],
+  "reply": "<friendly response to the user>"
+}
+
+Rules:
+- For "clear" intent, actions should be [{"type":"clear","itemId":0,"quantity":0}]
+- For "query" or "greeting" or "unknown", actions should be []
+- Always include a friendly reply
+- Match items by name similarity, be flexible with spelling`;
+
+  const result = await model.generateContent(prompt);
+  const responseText = result.response.text().trim();
+  const parsed = JSON.parse(responseText);
+
+  // Attach full item objects
+  parsed.actions = (parsed.actions || []).map(a => ({
+    ...a,
+    item: menu.find(m => m.id === a.itemId) || null
+  })).filter(a => a.type === 'clear' || a.item);
+
+  return parsed;
+}
+
+function parseOrderFallback(text) {
   // Detect intent
   const removePatterns = /\b(remove|delete|cancel|take off|drop)\b/;
   const clearPatterns = /\b(clear|empty|reset|start over)\b/;

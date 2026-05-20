@@ -31,6 +31,19 @@ npm start
 ```
 Server runs on `http://localhost:4000`
 
+#### AI-Powered NLP (Optional)
+
+To enable Google Gemini AI for natural language parsing:
+
+1. Get a free API key at https://aistudio.google.com/app/apikey
+2. Set the environment variable before starting:
+```bash
+export GEMINI_API_KEY=your_api_key_here
+npm start
+```
+
+Without the API key, the app falls back to a built-in rule-based parser — still fully functional.
+
 ### Frontend
 ```bash
 cd frontend
@@ -60,4 +73,4 @@ Built with **Kiro CLI** (AI coding assistant) for rapid development.
 | Navigation | React Navigation (Bottom Tabs) |
 | State | Zustand |
 | Backend | Node.js, Express |
-| NLP | Custom rule-based parser |
+| NLP | Google Gemini AI (with rule-based fallback) |
