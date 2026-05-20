@@ -27,7 +27,7 @@ function TabIcon({ icon, label, focused, badge }) {
 }
 
 export default function App() {
-  const getItemCount = useCartStore(s => s.getItemCount);
+  const itemCount = useCartStore(s => s.items.reduce((sum, i) => sum + i.quantity, 0));
 
   return (
     <NavigationContainer>
@@ -40,7 +40,7 @@ export default function App() {
       >
         <Tab.Screen name="Menu" component={MenuScreen} options={{ tabBarIcon: ({ focused }) => <TabIcon icon="🍽️" label="Menu" focused={focused} /> }} />
         <Tab.Screen name="Chat" component={ChatScreen} options={{ tabBarIcon: ({ focused }) => <TabIcon icon="💬" label="AI Chat" focused={focused} /> }} />
-        <Tab.Screen name="Cart" component={CartScreen} options={{ tabBarIcon: ({ focused }) => <TabIcon icon="🛒" label="Cart" focused={focused} badge={getItemCount()} /> }} />
+        <Tab.Screen name="Cart" component={CartScreen} options={{ tabBarIcon: ({ focused }) => <TabIcon icon="🛒" label="Cart" focused={focused} badge={itemCount} /> }} />
       </Tab.Navigator>
     </NavigationContainer>
   );
