@@ -6,16 +6,18 @@ An AI-powered restaurant ordering app built with **React Native (Expo)** and **N
 
 ```
 intelligent-bistro/
-├── backend/          # Node.js + Express API
-│   └── index.js      # Menu API + NLP order parser
-├── frontend/         # Expo React Native app
-│   ├── App.js        # Tab navigation (Menu, Chat, Cart)
+├── backend/            # Node.js + Express API
+│   ├── index.js        # Menu API + NLP order parser
+│   └── index.test.js   # Jest + Supertest API tests
+├── frontend/           # Expo React Native app
+│   ├── App.js          # Tab navigation (Menu, Chat, Cart)
 │   ├── src/
-│   │   ├── screens/  # MenuScreen, CartScreen, ChatScreen
-│   │   ├── store/    # Zustand cart state management
-│   │   └── config.js # API URL configuration
+│   │   ├── screens/    # MenuScreen, CartScreen, ChatScreen
+│   │   ├── store/      # Zustand cart state management
+│   │   └── config.js   # API URL configuration
 │   ├── tailwind.config.js
 │   └── metro.config.js
+├── video-script.md     # 5-minute demo walkthrough script
 └── README.md
 ```
 
@@ -42,7 +44,8 @@ Press `w` for web, `i` for iOS simulator, or `a` for Android emulator.
 
 - **Visual Menu Browsing** — Category filters, polished dark UI with NativeWind/Tailwind
 - **AI Chat Interface** — Natural language ordering ("Add two spicy chicken sandwiches and a lemonade")
-- **Smart Cart** — Add/remove/modify items via UI buttons or AI conversation
+- **Smart Cart** — Add/remove/modify items via UI buttons or AI conversation, with real-time badge updates
+- **Add-to-Cart Feedback** — Visual confirmation (green ✓ animation) when items are added
 - **NLP Backend** — Parses natural language into structured JSON cart actions
 
 ## AI Tools Used
